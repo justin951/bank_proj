@@ -5,6 +5,12 @@ For your Pep Supplemental project your goal is to create a terminal based Bankin
 - creating new checking accounts
 - viewing one or more owned accounts
 
+### For Thursday
+- SQLite integrated
+- registration implemented
+- login implemented
+- bank account functionality work started
+
 ## Project Focus
 - Java
 - SQL

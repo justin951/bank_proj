@@ -10,8 +10,6 @@ public class User implements Serializable {
 
     public User(){}
 
-    // technically Java Beans just have a no args constructor, but we are including
-    // this one for convenience
     public User(String username, String password){
         this.username = username;
         this.password = password;
@@ -51,6 +49,6 @@ public class User implements Serializable {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                '}';
+                "}\n";
     }
 }

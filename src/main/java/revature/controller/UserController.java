@@ -12,14 +12,6 @@ public class UserController {
     private final Scanner scanner;
     private final UserService userService;
 
-    /*
-        The controller takes in a scanner and service object
-            - scanner is defined outside the class and passed in, so we can
-              control closing the scanner when we are done in an easier way
-              (try with resources)
-            - userService gives the controller access to the service layer, which will
-              handle enforcing our business and software requirements
-     */
     public UserController(Scanner scanner, UserService userService) {
         this.scanner = scanner;
         this.userService = userService;
@@ -57,8 +49,9 @@ public class UserController {
     }
 
     public void registerNewUser() {
+        // this either returns details on the new account or returns a failure message
+        // TODO: generic runtime exception is thrown, make it more speific
         User newCredentials = getUserCredentials();
-        // TODO: get result and tell user
         User newUser = userService.validateNewCredentials(newCredentials);
         System.out.printf("New account created: %s", newUser);
     }

@@ -12,9 +12,6 @@ public class SqliteUserDao implements UserDao {
 
     @Override
     public User createUser(User newUserCredentials) {
-        // need sql statement
-        // need connection object
-        // need to return the newly generated user
         String sql = "insert into user values (?, ?)";
         try (Connection conn = DatabaseConnector.createConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -32,9 +29,6 @@ public class SqliteUserDao implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        // need sql statement
-        // need a connection object
-        // need a
         String sql = "select * from user";
         try (Connection conn = DatabaseConnector.createConnection()) {
             Statement statement = conn.createStatement();
