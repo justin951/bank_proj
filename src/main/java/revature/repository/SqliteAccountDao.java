@@ -13,18 +13,18 @@ public class SqliteAccountDao implements AccountDao {
 
     @Override
     public Account createAccount(Account newAccountInfo){
-        String sql = "insert into account (balance, owner) values (?, ?)";
+        String sql = "insert into account (primary_user) values (?)";
         try (Connection conn = DatabaseConnector.createConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setDouble(1, newAccountInfo.getBalance());
-            preparedStatement.setInt(2, newAccountInfo.getPrimary_user());
+            preparedStatement.setInt(1, newAccountInfo.getPrimary_user());
             preparedStatement.executeUpdate();
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
+            double initialBalance = 0;
             if (pkeyResultSet.next()){
                 int generated_account_id = (int) pkeyResultSet.getLong(1);
                 return new Account(
                         generated_account_id,
-                        newAccountInfo.getBalance(),
+                        initialBalance,
                         newAccountInfo.getPrimary_user(),
                         null
                 );
