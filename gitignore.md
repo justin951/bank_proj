@@ -40,3 +40,4 @@ build/
 ### User Added ###
 throwaway.md
 target
+src/main/resources/bank.db
