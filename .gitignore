@@ -153,4 +153,9 @@ buildNumber.properties
 .history
 .ionide
 
+### User Added ###
+throwaway.md
+target
+src/main/resources/bank.db
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,visualstudiocode,java,maven
