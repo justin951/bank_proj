@@ -28,11 +28,6 @@ public class SqliteUserDao implements UserDao {
                         newUserCredentials.getPassword()
                 );
             }
-
-//            int result = preparedStatement.executeUpdate();
-//            if (result == 1) {
-//                return newUserCredentials;
-//            }
             throw new UserSQLException("User could not be created: please try again");
         } catch (SQLException ex) {
             throw new UserSQLException(ex.getMessage());
@@ -47,7 +42,6 @@ public class SqliteUserDao implements UserDao {
             ResultSet resultSet = statement.executeQuery(sql);
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
-                System.out.println("printme");
                 User userRecord = new User();
                 userRecord.setUsername(resultSet.getString("username"));
                 userRecord.setPassword(resultSet.getString("password"));
@@ -58,4 +52,6 @@ public class SqliteUserDao implements UserDao {
             throw new UserSQLException(ex.getMessage());
         }
     }
+
+
 }

@@ -49,6 +49,10 @@ public class UserController {
         }
     }
 
+    public void promptLoggedInUserForService(Map<String, String> controlMap) {
+        System.out.println();
+    }
+
     public void registerNewUser() {
         // this either returns details on the new account or returns a failure message
         // TODO: generic runtime exception is thrown, make it more speific
