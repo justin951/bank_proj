@@ -45,7 +45,7 @@ public class Main {
                     System.out.printf("Banking stuff for %s can happen here! Press any key to continue", controlMap.get("User"));
                     scanner.nextLine();
                     /*
-                        NOTE: currently the User information has no means of being removed: when you implement a log out
+                        NOTE: currently the User information has no means of being removed: when you implement a log-out
                         functionality the controlMap needs to have the User key/value pair removed:
                         - controlMap.remove("User");
                      */

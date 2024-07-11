@@ -17,10 +17,22 @@ public class SqliteUserDao implements UserDao {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, newUserCredentials.getUsername());
             preparedStatement.setString(2, newUserCredentials.getPassword());
-            int result = preparedStatement.executeUpdate();
-            if (result == 1) {
-                return newUserCredentials;
+
+            preparedStatement.executeUpdate();
+            ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
+            if (pkeyResultSet.next()) {
+                int generated_user_id = (int) pkeyResultSet.getLong(1);
+                return new User(
+                        generated_user_id,
+                        newUserCredentials.getUsername(),
+                        newUserCredentials.getPassword()
+                );
             }
+
+//            int result = preparedStatement.executeUpdate();
+//            if (result == 1) {
+//                return newUserCredentials;
+//            }
             throw new UserSQLException("User could not be created: please try again");
         } catch (SQLException ex) {
             throw new UserSQLException(ex.getMessage());
