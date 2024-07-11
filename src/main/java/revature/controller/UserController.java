@@ -19,11 +19,11 @@ public class UserController {
     }
 
     /*
-        this promptUserForService method is our entrypoint to the bank application:
-        it currently contains code to handle registering an account or exiting the
-        app, but this can be refactored to handle more options (like logging). It
-        also can be refactored to call helper methods to control the flow of the application
-        in a more organized and readable way
+        ENTRYPOINT to bank application:
+        handles REGISTERING account or EXITING app,
+        TODO:
+         - refactor to call helper methods / additional helper methods
+         to control the flow of the application better
      */
     public void promptUserForService(Map<String, String> controlMap) {
         // user needs to prompt they want to make an account
@@ -50,13 +50,13 @@ public class UserController {
         }
     }
 
+    // TODO: interactions for logged-in user
     public void promptLoggedInUserForService(Map<String, String> controlMap) {
         System.out.println();
     }
 
     public void registerNewUser() {
-        // this either returns details on the new account or returns a failure message
-        // TODO: generic runtime exception is thrown, make it more speific
+        // TODO: generic runtime exception is thrown, make it more specific
         User newCredentials = getUserCredentials();
         User newUser = userService.validateNewCredentials(newCredentials);
         System.out.printf("New account created: %s", newUser);

@@ -9,14 +9,14 @@ import revature.repository.UserDao;
 import java.util.List;
 
 /*
-    This UserService will enforce the software requirements of the bank app:
-        registration:
+    This UserService will ENFORCE SOFTWARE REQUIREMENTS of the bank app:
+        TODO: (MVP COMPLETE) REGISTER
             - checking username and password length (<=30)
             - checking username is unique
-        login
+        TODO: (MVP COMPLETE) LOGIN
             - only allowing correct credentials to progress into the app
-        logout
-            - removing any user identifying information and returning to login/register view
+        TODO: LOGOUT
+            - removing any user identifying information and returning to log in/register view
  */
 
 public class UserService {
