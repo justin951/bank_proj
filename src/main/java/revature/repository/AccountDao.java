@@ -8,8 +8,8 @@ public interface AccountDao {
 
     Account createAccount(Account newAccountInfo);
 
-    List<Account> getAllAccounts();
-
-    Account getAccountById();
+//    List<Account> getAllAccounts();
+//
+//    Account getAccountById();
 
 }

@@ -12,12 +12,11 @@ public class SqliteUserDao implements UserDao {
 
     @Override
     public User createUser(User newUserCredentials) {
-        String sql = "insert into user values (?, ?)";
+        String sql = "insert into user (username, password) values (?, ?)";
         try (Connection conn = DatabaseConnector.createConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, newUserCredentials.getUsername());
             preparedStatement.setString(2, newUserCredentials.getPassword());
-
             preparedStatement.executeUpdate();
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
             if (pkeyResultSet.next()) {

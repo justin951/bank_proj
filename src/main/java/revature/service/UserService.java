@@ -34,6 +34,7 @@ public class UserService {
 
     // ENTRY POINT for UserService registration functionality
     public User validateNewCredentials(User newUserCredentials){
+        System.out.println("validateNewCredentials newUserCredentials: " + newUserCredentials);
         if (checkUsernamePasswordLength(newUserCredentials)){
             if(checkUsernameIsUnique(newUserCredentials)){
                 return userDao.createUser(newUserCredentials);

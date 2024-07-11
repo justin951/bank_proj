@@ -39,6 +39,7 @@ public class UserController {
                     break;
                 case "2":
                     controlMap.put("User", login().getUsername());
+                    controlMap.put("user_id", Integer.toString(login().getUser_id()));
                     break;
                 case "q":
                     System.out.println("Goodbye!");

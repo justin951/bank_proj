@@ -8,23 +8,24 @@ public class Account implements Serializable {
     // VARIABLES
     private int account_id;
     private double balance;
-    private int owner;
-    private int co_owner;
+    private int primary_user;
+    private Integer joint_owner;
 
     // CONSTRUCTORS
-    public Account() {}
-
-    public Account(double balance, int owner, int co_owner) {
-        this.balance = balance;
-        this.owner = owner;
-        this.co_owner = co_owner;
+    public Account() {
     }
 
-    public Account(int account_id, double balance, int owner, int co_owner) {
+    public Account(double balance, int primary_user, Integer joint_owner) {
+        this.balance = balance;
+        this.primary_user = primary_user;
+        this.joint_owner = joint_owner;
+    }
+
+    public Account(int account_id, double balance, int primary_user, Integer joint_owner) {
         this.account_id = account_id;
         this.balance = balance;
-        this.owner = owner;
-        this.co_owner = co_owner;
+        this.primary_user = primary_user;
+        this.joint_owner = joint_owner;
     }
 
     // GETTERS SETTERS
@@ -44,34 +45,33 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
-    public int getOwner() {
-        return owner;
+    public int getPrimary_user() {
+        return primary_user;
     }
 
-    public void setOwner(int owner) {
-        this.owner = owner;
+    public void setPrimary_user(int primary_user) {
+        this.primary_user = primary_user;
     }
 
-    public int getCo_owner() {
-        return co_owner;
+    public Integer getJoint_owner() {
+        return joint_owner;
     }
 
-    public void setCo_owner(int co_owner) {
-        this.co_owner = co_owner;
+    public void setJoint_owner(Integer joint_owner) {
+        this.joint_owner = joint_owner;
     }
 
-    // OVERRIDES
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && Double.compare(balance, account.balance) == 0 && owner == account.owner && co_owner == account.co_owner;
+        return account_id == account.account_id && Double.compare(balance, account.balance) == 0 && primary_user == account.primary_user && Objects.equals(joint_owner, account.joint_owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account_id, balance, owner, co_owner);
+        return Objects.hash(account_id, balance, primary_user, joint_owner);
     }
 
     @Override
@@ -79,8 +79,11 @@ public class Account implements Serializable {
         return "Account{" +
                 "account_id=" + account_id +
                 ", balance=" + balance +
-                ", owner=" + owner +
-                ", co_owner=" + co_owner +
+                ", primary_user=" + primary_user +
+                ", joint_owner=" + joint_owner +
                 '}';
     }
 }
+
+
+
