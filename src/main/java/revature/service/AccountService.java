@@ -2,7 +2,6 @@ package revature.service;
 
 import revature.entity.Account;
 import revature.repository.AccountDao;
-import revature.repository.SqliteAccountDao;
 
 import java.util.List;
 
@@ -21,7 +20,4 @@ public class AccountService {
         return accountDao.createAccount(newAccount);
     }
 
-    public List<Account> retrieveUserAccounts() {
-        List<Account> userAccounts = SqliteAccountDao.
-    }
 }

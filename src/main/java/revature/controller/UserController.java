@@ -61,9 +61,10 @@ public class UserController {
             switch (userActionIndicated) {
                 case "1":
                     accountController.registerNewAccount(controlMap);
+                    accountController.promptUserForAccountService(controlMap);
                     break;
                 case "2":
-                    System.out.println("This function is not currently implemented.");
+                    accountController.promptUserForAccountService(controlMap);
                     break;
                 case "3":
                     logout(controlMap);

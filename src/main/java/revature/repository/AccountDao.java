@@ -8,7 +8,7 @@ public interface AccountDao {
 
     Account createAccount(Account newAccountInfo);
 
-    List<Account> getAllAccounts();
+    List<Account> getUserAccounts();
 //
 //    Account getAccountById();
 

@@ -79,18 +79,19 @@ public class Account implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && Double.compare(balance, account.balance) == 0 && primary_user == account.primary_user && Objects.equals(joint_owner, account.joint_owner);
+        return account_id == account.account_id && Double.compare(balance, account.balance) == 0 && primary_user == account.primary_user && Objects.equals(account_name, account.account_name) && Objects.equals(joint_owner, account.joint_owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account_id, balance, primary_user, joint_owner);
+        return Objects.hash(account_id, account_name, balance, primary_user, joint_owner);
     }
 
     @Override
     public String toString() {
         return "Account{" +
                 "account_id=" + account_id +
+                ", account_name='" + account_name + '\'' +
                 ", balance=" + balance +
                 ", primary_user=" + primary_user +
                 ", joint_owner=" + joint_owner +

@@ -38,7 +38,7 @@ public class SqliteAccountDao implements AccountDao {
     }
 
     @Override
-    public List<Account> getAllAccounts() {
+    public List<Account> getUserAccounts() {
         try {
             String sql = "SELECT * FROM account WHERE primary_user = ?";
             try (Connection conn = DatabaseConnector.createConnection()) {
@@ -48,6 +48,7 @@ public class SqliteAccountDao implements AccountDao {
                 while (rs.next()) {
                     Account accountRecord = new Account();
                     accountRecord.setAccount_id(rs.getInt("account_id)"));
+                    accountRecord.setAccount_name(rs.getString("account_name"));
                     accountRecord.setBalance(rs.getDouble("balance"));
                     accountRecord.setPrimary_user(rs.getInt("primary_user"));
                     accountRecord.setJoint_owner(rs.getInt("joint_owner"));
