@@ -34,12 +34,11 @@ public class Main {
             controlMap.put("Continue Loop", "true");
 
             while (Boolean.parseBoolean(controlMap.get("Continue Loop"))) {
-                userController.promptUserForService(controlMap);
                 if (controlMap.containsKey("user_id")) {
-                    System.out.printf("Banking stuff for %s can happen here! Press any key to continue", controlMap.get("user"));
                     userController.promptLoggedInUserForService(controlMap);
-                    scanner.nextLine();
+//                    scanner.nextLine();
                 }
+                userController.promptUserForService(controlMap);
             }
         }
     }

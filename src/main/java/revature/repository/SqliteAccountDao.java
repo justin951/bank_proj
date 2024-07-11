@@ -13,7 +13,7 @@ public class SqliteAccountDao implements AccountDao {
 
     @Override
     public Account createAccount(Account newAccountInfo){
-        String sql = "insert into account (owner) values (?)";
+        String sql = "insert into account (primary_user) values (?)";
         try (Connection conn = DatabaseConnector.createConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, newAccountInfo.getPrimary_user());
