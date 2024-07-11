@@ -23,10 +23,11 @@ public class UserService {
     private final UserDao userDao;
 
     /*
-        the service needs to facilitate data between the controller layer and the
-        repository layer, so we need to provide a dao to the service so database
-        operations can be performed after business and software requirements are
-        verified
+        SERVICE verifies business and software requirements
+
+        SERVICE facilitates data between CONTROLLER and REPOSITORY
+        provide DAO to SERVICE so DATABASE operations can be performed
+        after business and software requirements are verified
      */
     public UserService(UserDao userDao){
         this.userDao = userDao;
