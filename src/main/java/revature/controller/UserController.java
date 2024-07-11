@@ -38,7 +38,6 @@ public class UserController {
                     break;
                 case "2":
                     login(controlMap);
-//                    System.out.println("UserController loggedInUser: " + loggedInUser);
                     break;
                 case "q":
                     System.out.println("Goodbye!");
@@ -55,15 +54,20 @@ public class UserController {
         System.out.printf("Welcome, %s! Please select your next course of action.", controlMap.get("user"));
         System.out.println();
         System.out.println("1. Create a new Checking Account");
+        System.out.println("2. Review existing Account(s)");
         System.out.println("2. Log out");
         try {
             String userActionIndicated = scanner.nextLine();
             switch (userActionIndicated) {
                 case "1":
                     accountController.registerNewAccount(controlMap);
+                    break;
                 case "2":
+                    System.out.println("This function is not currently implemented.");
+                    break;
+                case "3":
                     logout(controlMap);
-
+                    break;
             }
         } catch (RuntimeException ex) {
             // TODO: better exception
