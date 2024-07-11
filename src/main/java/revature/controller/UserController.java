@@ -1,6 +1,7 @@
 package revature.controller;
 
 import revature.exception.LoginFail;
+import revature.exception.UsernameNotUnique;
 import revature.service.UserService;
 import revature.entity.User;
 
@@ -43,7 +44,7 @@ public class UserController {
                     System.out.println("Goodbye!");
                     controlMap.put("Continue Loop", "false");
             }
-        } catch (LoginFail exception) {
+        } catch (LoginFail | UsernameNotUnique exception) {
             System.out.println(exception.getMessage());
         }
     }
@@ -54,6 +55,8 @@ public class UserController {
         User newCredentials = getUserCredentials();
         User newUser = userService.validateNewCredentials(newCredentials);
         System.out.printf("New account created: %s", newUser);
+        System.out.println("username: " + newCredentials.getUsername());
+        System.out.println("password: " + newCredentials.getPassword());
     }
 
     public User login() {

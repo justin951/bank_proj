@@ -17,6 +17,7 @@ public class SqliteUserDao implements UserDao {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, newUserCredentials.getUsername());
             preparedStatement.setString(2, newUserCredentials.getPassword());
+
             int result = preparedStatement.executeUpdate();
             if (result == 1) {
                 return newUserCredentials;
