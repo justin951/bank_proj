@@ -55,8 +55,7 @@ public class UserController {
         User newCredentials = getUserCredentials();
         User newUser = userService.validateNewCredentials(newCredentials);
         System.out.printf("New account created: %s", newUser);
-        System.out.println("username: " + newCredentials.getUsername());
-        System.out.println("password: " + newCredentials.getPassword());
+        System.out.println();
     }
 
     public User login() {
