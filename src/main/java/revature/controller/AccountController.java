@@ -23,6 +23,10 @@ public class AccountController {
         System.out.println(newAccount);
     }
 
+    public void promptUserForAccountService(Map<String, String> controlMap) {
+
+    }
+
     // HELPER METHODS
     public int retrieveUserId(Map<String, String> controlMap) {
         String userIdString = controlMap.get("user_id");

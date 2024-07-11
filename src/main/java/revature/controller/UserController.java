@@ -24,16 +24,8 @@ public class UserController {
         this.accountController = accountController;
     }
 
-    /*
-        ENTRYPOINT to bank application:
-        handles REGISTERING account or EXITING app,
-        TODO:
-         - refactor to call helper methods / additional helper methods
-         to control the flow of the application better
-     */
+    // CORE METHODS
     public void promptUserForService(Map<String, String> controlMap) {
-        // user needs to prompt they want to make an account
-        System.out.println("controlMap: " + controlMap);
         System.out.println("What would you like to do today?");
         System.out.println("1. Register a new User Account");
         System.out.println("2. Login");
@@ -90,6 +82,7 @@ public class UserController {
         promptLoggedInUserForService(controlMap);
     }
 
+    // HELPER METHODS
     public void login(Map<String, String> controlMap) {
         User loggedInUser = userService.checkLoginCredentials(getUserCredentials());
         controlMap.put("user", loggedInUser.getUsername());
@@ -105,7 +98,6 @@ public class UserController {
         System.out.println();
     }
 
-    // HELPER METHODS
     public User getUserCredentials() {
         String newUsername;
         String newPassword;

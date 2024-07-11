@@ -4,6 +4,7 @@ import revature.entity.User;
 import revature.exception.UserSQLException;
 import revature.utility.DatabaseConnector;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,22 @@ public class SqliteUserDao implements UserDao {
         }
     }
 
-
+    @Override
+    public User getUserByUsername(String username) {
+        try (Connection conn = DatabaseConnector.createConnection()) {
+            String sql = "Select ? from user";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
+            }
+        } catch (SQLException ex) {
+            throw new UserSQLException(ex.getMessage());
+        }
+        return null;
+    }
 }

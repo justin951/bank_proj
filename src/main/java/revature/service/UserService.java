@@ -49,14 +49,12 @@ public class UserService {
         throw new LoginFail("Credentials are invalid: please try again");
     }
 
-    // TODO: (COMPLETE) PASSWORD LENGTH
     private boolean checkUsernamePasswordLength(User newUserCredentials) {
         boolean usernameIsValid = newUserCredentials.getUsername().length() <= 30;
         boolean passwordIsValid = newUserCredentials.getPassword().length() <= 30;
         return usernameIsValid && passwordIsValid;
     }
 
-    // TODO: (COMPLETE) USERNAME UNIQUE
     private boolean checkUsernameIsUnique(User newUserCredentials) {
         boolean usernameIsUnique = true;
         List<User> users = userDao.getAllUsers();
