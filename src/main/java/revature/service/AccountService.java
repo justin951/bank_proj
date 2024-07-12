@@ -4,6 +4,7 @@ import revature.entity.Account;
 import revature.exception.InsufficientFunds;
 import revature.repository.AccountDao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 // ENFORCE SOFTWARE REQUIREMENTS and BUSINESS LOGIC
@@ -26,22 +27,22 @@ public class AccountService {
         return accountDao.getUserAccounts(userId);
     }
 
-    public Account checkSufficientBalanceForWithdraw(Account account, double withdrawAmount) {
-        if (account.getBalance() > withdrawAmount) {
-            double newBalance = account.getBalance() - withdrawAmount;
+    public Account checkSufficientBalanceForWithdraw(Account account, BigDecimal withdrawAmount) {
+        if (account.getBalance().compareTo(withdrawAmount) >= 0) {
+            BigDecimal newBalance = account.getBalance().subtract(withdrawAmount);
             return accountDao.accountTransaction(account, newBalance);
         } else {
             throw new InsufficientFunds("Insufficient funds to complete transaction.");
         }
     }
 
-    public Account addBalanceForDeposit(Account account, double depositAmount) {
-        double newBalance = account.getBalance() + depositAmount;
+    public Account addBalanceForDeposit(Account account, BigDecimal depositAmount) {
+        BigDecimal newBalance = account.getBalance().add(depositAmount);
         return accountDao.accountTransaction(account, newBalance);
     }
 
     public boolean checkBalanceIsZero(Account account) {
-        return account.getBalance() == 0;
+        return account.getBalance().compareTo(BigDecimal.ZERO) == 0;
     }
 
 }

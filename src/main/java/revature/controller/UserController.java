@@ -64,7 +64,7 @@ public class UserController {
         System.out.println();
         System.out.println("1. Create a new Checking Account");
         System.out.println("2. Review existing Account(s)");
-        System.out.println("3. Log out");
+        System.out.println("q. Log out");
         try {
             String userActionIndicated = scanner.nextLine();
             switch (userActionIndicated) {
@@ -73,9 +73,9 @@ public class UserController {
                     controlMap.put("account", "true");
                     break;
                 case "2":
-                    controlMap.put("account", "true");
+                    controlMap.put("viewAccounts", "true");
                     break;
-                case "3":
+                case "q":
                     logout(controlMap);
                     break;
             }
