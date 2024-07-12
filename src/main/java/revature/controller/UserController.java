@@ -24,6 +24,14 @@ public class UserController {
         this.accountController = accountController;
     }
 
+    public void promptForService(Map<String, String> controlMap) {
+        if (controlMap.containsKey("user_id")) {
+            promptLoggedInUserForService(controlMap);
+        } else {
+            promptUserForService(controlMap);
+        }
+    }
+
     // CORE METHODS
     public void promptUserForService(Map<String, String> controlMap) {
         System.out.println("What would you like to do today?");
@@ -50,21 +58,20 @@ public class UserController {
 
     // TODO: interactions for logged-in user
     public void promptLoggedInUserForService(Map<String, String> controlMap) {
-        System.out.println("promptLoggedInUserForService controlMap: " + controlMap);
         System.out.printf("Welcome, %s! Please select your next course of action.", controlMap.get("user"));
         System.out.println();
         System.out.println("1. Create a new Checking Account");
         System.out.println("2. Review existing Account(s)");
-        System.out.println("2. Log out");
+        System.out.println("3. Log out");
         try {
             String userActionIndicated = scanner.nextLine();
             switch (userActionIndicated) {
                 case "1":
                     accountController.registerNewAccount(controlMap);
-                    accountController.promptUserForAccountService(controlMap);
+                    controlMap.put("account", "true");
                     break;
                 case "2":
-                    accountController.promptUserForAccountService(controlMap);
+                    controlMap.put("account", "true");
                     break;
                 case "3":
                     logout(controlMap);
@@ -80,8 +87,9 @@ public class UserController {
     public void registerNewUser(Map<String, String> controlMap) {
         User newCredentials = getUserCredentials();
         User newUser = userService.validateNewCredentials(newCredentials);
-        controlMap.put("user", newCredentials.getUsername());
-        controlMap.put("user_id", Integer.toString(newCredentials.getUser_id()));
+        controlMap.put("user", newUser.getUsername());
+        controlMap.put("user_id", Integer.toString(newUser.getUser_id()));
+        controlMap.put("password",newUser.getPassword());
         System.out.printf("New account created: %s", newUser);
         System.out.println();
         promptLoggedInUserForService(controlMap);
@@ -92,6 +100,9 @@ public class UserController {
         User loggedInUser = userService.checkLoginCredentials(getUserCredentials());
         controlMap.put("user", loggedInUser.getUsername());
         controlMap.put("user_id", Integer.toString(loggedInUser.getUser_id()));
+        controlMap.put("password", loggedInUser.getPassword());
+        System.out.printf("Account %s log-in successful.", loggedInUser.getUsername());
+        System.out.println();
         promptLoggedInUserForService(controlMap);
     }
 

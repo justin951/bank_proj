@@ -97,6 +97,13 @@ public class Account implements Serializable {
                 ", joint_owner=" + joint_owner +
                 '}';
     }
+
+    public String toShortString() {
+        return "{ account name: " + account_name +
+                ", account balance: " + balance +
+                ", primary user: " + primary_user +
+                ", joint owner: " + joint_owner + " }";
+    }
 }
 
 

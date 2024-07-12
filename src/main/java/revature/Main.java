@@ -34,12 +34,18 @@ public class Main {
             controlMap.put("Continue Loop", "true");
 
             while (Boolean.parseBoolean(controlMap.get("Continue Loop"))) {
-                if (controlMap.containsKey("user_id")) {
-                    userController.promptLoggedInUserForService(controlMap);
-//                    scanner.nextLine();
+                if (Boolean.parseBoolean(controlMap.get("account"))) {
+                    accountController.promptForService(controlMap);
                 }
-                userController.promptUserForService(controlMap);
+                userController.promptForService(controlMap);
             }
+
+//            while (Boolean.parseBoolean(controlMap.get("Continue Loop"))) {
+//                if (controlMap.containsKey("user_id")) {
+//                    userController.promptLoggedInUserForService(controlMap);
+//                }
+//                userController.promptUserForService(controlMap);
+//            }
         }
     }
 }

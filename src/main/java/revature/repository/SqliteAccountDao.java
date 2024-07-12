@@ -38,24 +38,24 @@ public class SqliteAccountDao implements AccountDao {
     }
 
     @Override
-    public List<Account> getUserAccounts() {
-        try {
-            String sql = "SELECT * FROM account WHERE primary_user = ?";
-            try (Connection conn = DatabaseConnector.createConnection()) {
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(sql);
-                List<Account> accounts = new ArrayList<>();
-                while (rs.next()) {
-                    Account accountRecord = new Account();
-                    accountRecord.setAccount_id(rs.getInt("account_id)"));
-                    accountRecord.setAccount_name(rs.getString("account_name"));
-                    accountRecord.setBalance(rs.getDouble("balance"));
-                    accountRecord.setPrimary_user(rs.getInt("primary_user"));
-                    accountRecord.setJoint_owner(rs.getInt("joint_owner"));
-                    accounts.add(accountRecord);
-                }
-                return accounts;
+    public List<Account> getUserAccounts(int userId) {
+        try (Connection conn = DatabaseConnector.createConnection()) {
+            String sql = "SELECT * FROM account WHERE primary_user = ? OR joint_user = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setInt(2, userId);
+            ResultSet rs = ps.executeQuery();
+            List<Account> accounts = new ArrayList<>();
+            while (rs.next()) {
+                Account accountRecord = new Account();
+                accountRecord.setAccount_id(rs.getInt("account_id"));
+                accountRecord.setAccount_name(rs.getString("account_name"));
+                accountRecord.setBalance(rs.getDouble("balance"));
+                accountRecord.setPrimary_user(rs.getInt("primary_user"));
+                accountRecord.setJoint_owner(rs.getInt("joint_user"));
+                accounts.add(accountRecord);
             }
+            return accounts;
         } catch (SQLException ex) {
             throw new UserSQLException(ex.getMessage());
         }

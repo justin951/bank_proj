@@ -14,10 +14,15 @@ public class AccountService {
     }
 
     public Account createAccount(int userId, String accountName) {
+        System.out.println("AccountService createAccount userId: " + userId);
         Account newAccount = new Account();
         newAccount.setPrimary_user(userId);
         newAccount.setAccount_name(accountName);
         return accountDao.createAccount(newAccount);
+    }
+
+    public List<Account> getUserAccounts(int userId) {
+        return accountDao.getUserAccounts(userId);
     }
 
 }
