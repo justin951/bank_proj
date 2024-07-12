@@ -31,7 +31,7 @@ public class AccountService {
             double newBalance = account.getBalance() - withdrawAmount;
             return accountDao.accountTransaction(account, newBalance);
         } else {
-            throw new InsufficientFunds("Insufficient funds to complete transaction");
+            throw new InsufficientFunds("Insufficient funds to complete transaction.");
         }
     }
 

@@ -34,6 +34,7 @@ public class UserController {
 
     // CORE METHODS
     public void promptUserForService(Map<String, String> controlMap) {
+        System.out.println("...");
         System.out.println("What would you like to do today?");
         System.out.println("1. Register a new User Account");
         System.out.println("2. Login");
@@ -58,6 +59,7 @@ public class UserController {
 
     // TODO: interactions for logged-in user
     public void promptLoggedInUserForService(Map<String, String> controlMap) {
+        System.out.println("...");
         System.out.printf("Welcome, %s! Please select your next course of action.", controlMap.get("user"));
         System.out.println();
         System.out.println("1. Create a new Checking Account");
