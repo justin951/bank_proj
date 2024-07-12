@@ -39,13 +39,6 @@ public class Main {
                 }
                 userController.promptForService(controlMap);
             }
-
-//            while (Boolean.parseBoolean(controlMap.get("Continue Loop"))) {
-//                if (controlMap.containsKey("user_id")) {
-//                    userController.promptLoggedInUserForService(controlMap);
-//                }
-//                userController.promptUserForService(controlMap);
-//            }
         }
     }
 }

@@ -110,6 +110,7 @@ public class UserController {
 
     public void logout(Map<String, String> controlMap) {
         String temp = controlMap.get("user");
+        controlMap.remove("viewAccounts");
         controlMap.remove("user");
         controlMap.remove("user_id");
         System.out.printf("User %s has logged out.", temp);

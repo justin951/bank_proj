@@ -15,4 +15,5 @@ public interface AccountDao {
 
     Account getAccountById(int Id);
 
+    String deleteAccountById(int Id);
 }

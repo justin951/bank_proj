@@ -2,6 +2,7 @@ package revature.repository;
 
 import revature.entity.Account;
 import revature.exception.AccountSQLException;
+import revature.exception.DeleteAccountException;
 import revature.exception.UserSQLException;
 import revature.utility.DatabaseConnector;
 
@@ -106,5 +107,23 @@ public class SqliteAccountDao implements AccountDao {
             System.out.println(ex.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public String deleteAccountById(int Id) {
+        try (Connection conn = DatabaseConnector.createConnection()) {
+            Account account = getAccountById(Id);
+            String sql = "DELETE FROM account WHERE account_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, Id);
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                return "Deleted account: " + account.toShortString();
+            } else {
+                return "No account found with ID " + Id;
+            }
+        } catch (SQLException ex) {
+            throw new DeleteAccountException(ex.getMessage());
+        }
     }
 }

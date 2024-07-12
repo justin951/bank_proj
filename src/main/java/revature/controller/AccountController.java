@@ -37,12 +37,15 @@ public class AccountController {
     public void promptUserForAccountService(Map<String, String> controlMap) {
         int userId = Integer.parseInt(controlMap.get("user_id"));
         List<Account> userAccounts = accountService.getUserAccounts(userId);
-        System.out.println("userAccounts: " + userAccounts);
+        System.out.println("...");
         System.out.println("Please choose from the listed accounts for action: ");
 //        userAccounts.forEach(account -> System.out.println(account));
 
         for (int i = 0; i < userAccounts.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, userAccounts.get(i).getAccount_name());
+            System.out.printf("%d. %s | $%.2f\n",
+                    i + 1,
+                    userAccounts.get(i).getAccount_name(),
+                    userAccounts.get(i).getBalance());
         }
         System.out.println("q. quit");
         try {
@@ -64,10 +67,9 @@ public class AccountController {
     }
 
     private void handleAccountAction(Account selectedAccount) {
-        System.out.println(">>>>>>>>>>>>>>>");
-        System.out.printf("Selected Account: %s\n", selectedAccount.getAccount_name());
-        System.out.println(">>>>>>>>>>>>>>>");
-        System.out.println("Choose an action for this account:");
+        System.out.println("...");
+        System.out.printf("Choose an action for account {%s}:", selectedAccount.getAccount_name());
+        System.out.println();
         System.out.println("1. View account details");
         System.out.println("2. Perform transaction");
         System.out.println("3. Add joint user to account");
@@ -81,6 +83,7 @@ public class AccountController {
                 case "2" -> performTransaction(selectedAccount);
                 case "3" -> addJointUser(selectedAccount);
                 case "4" -> deleteAccount(selectedAccount);
+                case "5" -> System.out.println();
                 default -> System.out.println("Invalid selection, please try again");
             }
         } catch (RuntimeException ex) {
@@ -94,9 +97,11 @@ public class AccountController {
         System.out.println();
         System.out.println("Press any key to continue");
         scanner.nextLine();
+        handleAccountAction(account);
     }
 
     private void performTransaction(Account account) {
+        System.out.println("...");
         System.out.printf("Select a transaction for account {%s}: ", account.getAccount_name());
         System.out.println();
         System.out.println("1. Withdraw");
@@ -157,17 +162,34 @@ public class AccountController {
     }
 
     private void deleteAccount(Account account) {
-        System.out.println("not yet implemented");
         if (!accountService.checkBalanceIsZero(account)) {
             System.out.printf(
                     "Balance for account {%s} is currently %.2f. Please draw balance down to 0.00 before closing account.",
                     account.getAccount_name(),
                     account.getBalance());
             System.out.println();
-            System.out.println();
             performTransaction(account);
+        } else {
+
+        System.out.printf(
+                "Are you sure you wish to close account {%s}?",
+                account.getAccount_name());
+            System.out.println();
+            System.out.println("1. delete");
+            System.out.println("2. cancel");
+            String userChoice = scanner.nextLine();
+            try {
+                switch (userChoice) {
+                    case "1":
+                        System.out.println(accountService.deleteAccount(account.getAccount_id()));
+                        break;
+                    case "2":
+                        System.out.println("Account deletion canceled.");
+                }
+            } catch (RuntimeException ex) {
+                System.out.println(ex.getMessage());
+            }
         }
-        System.out.println("you hit me");
     }
 
     // HELPER METHODS

@@ -45,4 +45,8 @@ public class AccountService {
         return account.getBalance().compareTo(BigDecimal.ZERO) == 0;
     }
 
+    public String deleteAccount(int Id) {
+        return accountDao.deleteAccountById(Id);
+    }
+
 }
