@@ -5,6 +5,7 @@ import revature.exception.AccountSQLException;
 import revature.exception.UserSQLException;
 import revature.utility.DatabaseConnector;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,4 +62,42 @@ public class SqliteAccountDao implements AccountDao {
         }
     }
 
+    @Override
+    public Account accountTransaction(Account account, double newBalance) {
+        try (Connection connection = DatabaseConnector.createConnection()) {
+            String sql = "UPDATE account SET balance = ? WHERE account_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setDouble(1, newBalance);
+            ps.setInt(2, account.getAccount_id());
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                return getAccountById(account.getAccount_id());
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Account getAccountById(int Id) {
+        try (Connection conn = DatabaseConnector.createConnection()) {
+            String sql = "SELECT * from Account WHERE account_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, Id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Account account = new Account();
+                account.setAccount_id(rs.getInt("account_id"));
+                account.setAccount_name(rs.getString("account_name"));
+                account.setBalance(rs.getDouble("balance"));
+                account.setPrimary_user(rs.getInt("primary_user"));
+                account.setJoint_owner(rs.getInt("joint_user"));
+                return account;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
 }

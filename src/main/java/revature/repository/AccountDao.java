@@ -9,7 +9,9 @@ public interface AccountDao {
     Account createAccount(Account newAccountInfo);
 
     List<Account> getUserAccounts(int userId);
-//
-//    Account getAccountById();
+
+    Account accountTransaction(Account account, double newBalance);
+
+    Account getAccountById(int Id);
 
 }

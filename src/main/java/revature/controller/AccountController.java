@@ -67,6 +67,7 @@ public class AccountController {
         System.out.println("2. Perform transaction");
         System.out.println("3. Add joint user to account");
         System.out.println("4. Delete account");
+        System.out.println("5. Go back");
 
         try {
             String action = scanner.nextLine();
@@ -91,7 +92,58 @@ public class AccountController {
     }
 
     private void performTransaction(Account account) {
-        System.out.println("not yet implemented");
+        System.out.println("Select a transaction: ");
+        System.out.println("1. Withdraw");
+        System.out.println("2. Deposit");
+        System.out.println("3. Cancel Transaction");
+        try {
+            String userChoice = scanner.nextLine();
+            switch (userChoice) {
+                case "1" -> balanceWithdraw(account);
+                case "2" -> balanceDeposit(account);
+                default -> handleAccountAction(account);
+            }
+        } catch (RuntimeException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void balanceWithdraw(Account account) {
+        System.out.printf(
+                "Account %s balance: %.2f. Please input an amount to withdraw: ",
+                account.getAccount_name(),
+                account.getBalance());
+        try {
+            double withdrawAmount = Double.parseDouble(scanner.nextLine());
+            Account updatedAccount = accountService.checkSufficientBalanceForWithdraw(account, withdrawAmount);
+            System.out.printf("Account %s now has a new balance of %.2f",
+                    updatedAccount.getAccount_name(),
+                    updatedAccount.getBalance());
+            System.out.println();
+        } catch (NumberFormatException ex) {
+            System.out.println("Please enter a number value for withdraw");
+        } catch (RuntimeException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private void balanceDeposit(Account account) {
+        System.out.printf(
+                "Account %s balance: %.2f. Please input an amount to deposit: ",
+                account.getAccount_name(),
+                account.getBalance());
+        try {
+            double depositAmount = Double.parseDouble(scanner.nextLine());
+            Account updatedAccount = accountService.addBalanceForDeposit(account, depositAmount);
+            System.out.printf("Account %s now has a new balance of %.2f",
+                    updatedAccount.getAccount_name(),
+                    updatedAccount.getBalance());
+            System.out.println();
+        } catch (NumberFormatException ex) {
+            System.out.println("Please enter a number value for deposit");
+        } catch (RuntimeException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     private void addJointUser(Account account) {
