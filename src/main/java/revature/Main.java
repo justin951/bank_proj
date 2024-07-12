@@ -34,7 +34,7 @@ public class Main {
             controlMap.put("Continue Loop", "true");
 
             while (Boolean.parseBoolean(controlMap.get("Continue Loop"))) {
-                if (Boolean.parseBoolean(controlMap.get("account"))) {
+                if (Boolean.parseBoolean(controlMap.get("viewAccounts"))) {
                     accountController.promptForService(controlMap);
                 }
                 userController.promptForService(controlMap);

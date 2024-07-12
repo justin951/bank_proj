@@ -1,6 +1,7 @@
 package revature.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account implements Serializable {
@@ -8,7 +9,7 @@ public class Account implements Serializable {
     // VARIABLES
     private int account_id;
     private String account_name;
-    private double balance;
+    private BigDecimal balance;
     private int primary_user;
     private Integer joint_owner;
 
@@ -16,14 +17,14 @@ public class Account implements Serializable {
     public Account() {
     }
 
-    public Account(String account_name, double balance, int primary_user, Integer joint_owner) {
+    public Account(String account_name, BigDecimal balance, int primary_user, Integer joint_owner) {
         this.account_name = account_name;
         this.balance = balance;
         this.primary_user = primary_user;
         this.joint_owner = joint_owner;
     }
 
-    public Account(int account_id, String account_name, double balance, int primary_user, Integer joint_owner) {
+    public Account(int account_id, String account_name, BigDecimal balance, int primary_user, Integer joint_owner) {
         this.account_id = account_id;
         this.account_name = account_name;
         this.balance = balance;
@@ -50,11 +51,11 @@ public class Account implements Serializable {
         this.account_name = account_name;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -79,7 +80,7 @@ public class Account implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && Double.compare(balance, account.balance) == 0 && primary_user == account.primary_user && Objects.equals(account_name, account.account_name) && Objects.equals(joint_owner, account.joint_owner);
+        return account_id == account.account_id && primary_user == account.primary_user && Objects.equals(account_name, account.account_name) && Objects.equals(balance, account.balance) && Objects.equals(joint_owner, account.joint_owner);
     }
 
     @Override

@@ -3,6 +3,7 @@ package revature.controller;
 import revature.entity.Account;
 import revature.service.AccountService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class AccountController {
     public AccountController(Scanner scanner, AccountService accountService) {
         this.scanner = scanner;
         this.accountService = accountService;
+
     }
 
     // CORE METHODS
@@ -25,7 +27,7 @@ public class AccountController {
     }
 
     public void promptForService(Map<String, String> controlMap) {
-        if (controlMap.containsKey("user_id")) {
+        if (controlMap.containsKey("viewAccounts")) {
             promptUserForAccountService(controlMap);
         } else {
             System.out.println("Not yet implemented");
@@ -42,9 +44,12 @@ public class AccountController {
         for (int i = 0; i < userAccounts.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, userAccounts.get(i).getAccount_name());
         }
-
+        System.out.println("q. quit");
         try {
             int selectedOption = Integer.parseInt(scanner.nextLine()) - 1;
+            if (selectedOption == 'q') {
+                controlMap.remove("viewAccounts");
+            }
             if (selectedOption >= 0 && selectedOption < userAccounts.size()) {
                 Account selectedAccount = userAccounts.get(selectedOption);
                 handleAccountAction(selectedAccount);
@@ -115,7 +120,7 @@ public class AccountController {
                 account.getAccount_name(),
                 account.getBalance());
         try {
-            double withdrawAmount = Double.parseDouble(scanner.nextLine());
+            BigDecimal withdrawAmount = BigDecimal.valueOf(Integer.parseInt(scanner.nextLine()));
             Account updatedAccount = accountService.checkSufficientBalanceForWithdraw(account, withdrawAmount);
             System.out.printf("Account %s now has a new balance of %.2f",
                     updatedAccount.getAccount_name(),
@@ -134,7 +139,7 @@ public class AccountController {
                 account.getAccount_name(),
                 account.getBalance());
         try {
-            double depositAmount = Double.parseDouble(scanner.nextLine());
+            BigDecimal depositAmount = BigDecimal.valueOf(Integer.parseInt(scanner.nextLine()));
             Account updatedAccount = accountService.addBalanceForDeposit(account, depositAmount);
             System.out.printf("Account %s now has a new balance of %.2f",
                     updatedAccount.getAccount_name(),

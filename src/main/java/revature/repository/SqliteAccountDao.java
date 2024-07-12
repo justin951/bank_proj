@@ -6,6 +6,7 @@ import revature.exception.UserSQLException;
 import revature.utility.DatabaseConnector;
 
 import javax.xml.crypto.Data;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class SqliteAccountDao implements AccountDao {
             preparedStatement.setString(2, newAccountInfo.getAccount_name());
             preparedStatement.executeUpdate();
             ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
-            double initialBalance = 0;
+            BigDecimal initialBalance = BigDecimal.valueOf(0);
             if (pkeyResultSet.next()) {
                 int generated_account_id = (int) pkeyResultSet.getLong(1);
                 return new Account(
@@ -51,7 +52,7 @@ public class SqliteAccountDao implements AccountDao {
                 Account accountRecord = new Account();
                 accountRecord.setAccount_id(rs.getInt("account_id"));
                 accountRecord.setAccount_name(rs.getString("account_name"));
-                accountRecord.setBalance(rs.getDouble("balance"));
+                accountRecord.setBalance(rs.getBigDecimal("balance"));
                 accountRecord.setPrimary_user(rs.getInt("primary_user"));
                 int jointOwner = rs.getInt("joint_user");
                 if (rs.wasNull()) {
@@ -69,11 +70,11 @@ public class SqliteAccountDao implements AccountDao {
     }
 
     @Override
-    public Account accountTransaction(Account account, double newBalance) {
+    public Account accountTransaction(Account account, BigDecimal newBalance) {
         try (Connection connection = DatabaseConnector.createConnection()) {
             String sql = "UPDATE account SET balance = ? WHERE account_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setDouble(1, newBalance);
+            ps.setBigDecimal(1, newBalance);
             ps.setInt(2, account.getAccount_id());
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
@@ -96,7 +97,7 @@ public class SqliteAccountDao implements AccountDao {
                 Account account = new Account();
                 account.setAccount_id(rs.getInt("account_id"));
                 account.setAccount_name(rs.getString("account_name"));
-                account.setBalance(rs.getDouble("balance"));
+                account.setBalance(rs.getBigDecimal("balance"));
                 account.setPrimary_user(rs.getInt("primary_user"));
                 account.setJoint_owner(rs.getInt("joint_user"));
                 return account;
