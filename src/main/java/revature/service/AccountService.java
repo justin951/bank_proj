@@ -40,4 +40,8 @@ public class AccountService {
         return accountDao.accountTransaction(account, newBalance);
     }
 
+    public boolean checkBalanceIsZero(Account account) {
+        return account.getBalance() == 0;
+    }
+
 }

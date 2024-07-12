@@ -99,10 +99,10 @@ public class Account implements Serializable {
     }
 
     public String toShortString() {
-        return "{ account name: " + account_name +
-                ", account balance: " + balance +
+        return "{ account: " + account_name +
+                ", balance: " + String.format("%.2f", balance) +
                 ", primary user: " + primary_user +
-                ", joint owner: " + joint_owner + " }";
+                ", joint owner: " + (joint_owner != null ? joint_owner.toString() : "none") + " }";
     }
 }
 

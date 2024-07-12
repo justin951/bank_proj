@@ -53,7 +53,13 @@ public class SqliteAccountDao implements AccountDao {
                 accountRecord.setAccount_name(rs.getString("account_name"));
                 accountRecord.setBalance(rs.getDouble("balance"));
                 accountRecord.setPrimary_user(rs.getInt("primary_user"));
-                accountRecord.setJoint_owner(rs.getInt("joint_user"));
+                int jointOwner = rs.getInt("joint_user");
+                if (rs.wasNull()) {
+                    accountRecord.setJoint_owner(null);
+                } else {
+                    accountRecord.setJoint_owner(jointOwner);
+                }
+
                 accounts.add(accountRecord);
             }
             return accounts;

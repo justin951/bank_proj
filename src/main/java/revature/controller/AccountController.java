@@ -85,14 +85,15 @@ public class AccountController {
 
     // handleAccountAction HELPER METHODS
     private void viewAccountDetails(Account account) {
-        System.out.println("Account details: " + account);
+        System.out.println("Account details: " + account.toShortString());
         System.out.println();
         System.out.println("Press any key to continue");
         scanner.nextLine();
     }
 
     private void performTransaction(Account account) {
-        System.out.println("Select a transaction: ");
+        System.out.printf("Select a transaction for account {%s}: ", account.getAccount_name());
+        System.out.println();
         System.out.println("1. Withdraw");
         System.out.println("2. Deposit");
         System.out.println("3. Cancel Transaction");
@@ -152,6 +153,16 @@ public class AccountController {
 
     private void deleteAccount(Account account) {
         System.out.println("not yet implemented");
+        if (!accountService.checkBalanceIsZero(account)) {
+            System.out.printf(
+                    "Balance for account {%s} is currently %.2f. Please draw balance down to 0.00 before closing account.",
+                    account.getAccount_name(),
+                    account.getBalance());
+            System.out.println();
+            System.out.println();
+            performTransaction(account);
+        }
+        System.out.println("you hit me");
     }
 
     // HELPER METHODS
