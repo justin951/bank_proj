@@ -64,7 +64,7 @@ public class AccountController {
                 System.out.println("Invalid selection. Please select from one of your listed accounts.");
             }
         } catch (NumberFormatException ex) {
-            System.out.println("Please enter a number corresponding to the listed accounts.");
+            System.out.println("Redirecting...");
         } catch (RuntimeException ex) {
             System.out.println(ex.getMessage());
         }
