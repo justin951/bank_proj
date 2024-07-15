@@ -4,6 +4,7 @@ import revature.entity.Account;
 import revature.service.AccountService;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -46,6 +47,9 @@ public class AccountController {
                     i + 1,
                     userAccounts.get(i).getAccount_name(),
                     userAccounts.get(i).getBalance());
+        }
+        if (userAccounts.isEmpty()) {
+            System.out.println("You have no active accounts");
         }
         System.out.println("q. quit");
         try {
