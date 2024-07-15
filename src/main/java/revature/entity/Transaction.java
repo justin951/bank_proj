@@ -7,7 +7,6 @@ import java.util.Objects;
 public class Transaction {
     private int transaction_id;
     private int account_id;
-    private String account_name;
     private String transaction_type;
     private BigDecimal transaction_amount;
     private BigDecimal balance;
@@ -16,19 +15,17 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int account_id, String account_name, String transaction_type, BigDecimal transaction_amount, BigDecimal balance, Timestamp transaction_time) {
+    public Transaction(int account_id, String transaction_type, BigDecimal transaction_amount, BigDecimal balance, Timestamp transaction_time) {
         this.account_id = account_id;
-        this.account_name = account_name;
         this.transaction_type = transaction_type;
         this.transaction_amount = transaction_amount;
         this.balance = balance;
         this.transaction_time = transaction_time;
     }
 
-    public Transaction(int transaction_id, int account_id, String account_name, String transaction_type, BigDecimal transaction_amount, BigDecimal balance, Timestamp transaction_time) {
+    public Transaction(int transaction_id, int account_id, String transaction_type, BigDecimal transaction_amount, BigDecimal balance, Timestamp transaction_time) {
         this.transaction_id = transaction_id;
         this.account_id = account_id;
-        this.account_name = account_name;
         this.transaction_type = transaction_type;
         this.transaction_amount = transaction_amount;
         this.balance = balance;
@@ -49,14 +46,6 @@ public class Transaction {
 
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
-    }
-
-    public String getAccount_name() {
-        return account_name;
-    }
-
-    public void setAccount_name(String account_name) {
-        this.account_name = account_name;
     }
 
     public String getTransaction_type() {
@@ -96,12 +85,12 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return transaction_id == that.transaction_id && account_id == that.account_id && Objects.equals(account_name, that.account_name) && Objects.equals(transaction_type, that.transaction_type) && Objects.equals(transaction_amount, that.transaction_amount) && Objects.equals(balance, that.balance) && Objects.equals(transaction_time, that.transaction_time);
+        return transaction_id == that.transaction_id && account_id == that.account_id && Objects.equals(transaction_type, that.transaction_type) && Objects.equals(transaction_amount, that.transaction_amount) && Objects.equals(balance, that.balance) && Objects.equals(transaction_time, that.transaction_time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(transaction_id, account_id, account_name, transaction_type, transaction_amount, balance, transaction_time);
+        return Objects.hash(transaction_id, account_id, transaction_type, transaction_amount, balance, transaction_time);
     }
 
     @Override
@@ -109,11 +98,20 @@ public class Transaction {
         return "Transaction{" +
                 "transaction_id=" + transaction_id +
                 ", account_id=" + account_id +
-                ", account_name='" + account_name + '\'' +
                 ", transaction_type='" + transaction_type + '\'' +
                 ", transaction_amount=" + transaction_amount +
                 ", balance=" + balance +
                 ", transaction_time=" + transaction_time +
+                '}';
+    }
+
+    public String toShortString() {
+        return "Transaction{" +
+                "transaction number: " + transaction_id +
+                ", type: '" + transaction_type + '\'' +
+                ", amount: " + transaction_amount +
+                ", balance: " + balance +
+                ", time: " + transaction_time +
                 '}';
     }
 }

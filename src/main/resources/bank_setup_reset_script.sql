@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS "transaction";
 CREATE TABLE "transaction"(
     transaction_id integer PRIMARY KEY AUTOINCREMENT,
     account_id INTEGER NOT NULL,
-    account_name text not null,
     transaction_type text not null,
     transaction_amount DECIMAL(19, 4) not null,
     balance DECIMAL(19, 4) not null,

@@ -13,14 +13,13 @@ public class SqliteTransactionDao implements TransactionDao {
     @Override
     public Transaction createTransaction(Transaction newTransactionInfo) {
         try (Connection conn = DatabaseConnector.createConnection()) {
-            String sql = "INSERT INTO transaction (account_id, account_name, transaction_type, transaction_type, transaction_amount, balance, transaction_time) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO \"transaction\" (account_id, transaction_type, transaction_amount, balance, transaction_time) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, newTransactionInfo.getAccount_id());
-            ps.setString(2, newTransactionInfo.getAccount_name());
-            ps.setString(3, newTransactionInfo.getTransaction_type());
-            ps.setBigDecimal(4, newTransactionInfo.getTransaction_amount());
-            ps.setBigDecimal(5, newTransactionInfo.getBalance());
-            ps.setTimestamp(6, newTransactionInfo.getTransaction_time());
+            ps.setString(2, newTransactionInfo.getTransaction_type());
+            ps.setBigDecimal(3, newTransactionInfo.getTransaction_amount());
+            ps.setBigDecimal(4, newTransactionInfo.getBalance());
+            ps.setTimestamp(5, newTransactionInfo.getTransaction_time());
 
             int affectedRows = ps.executeUpdate();
 
@@ -34,7 +33,6 @@ public class SqliteTransactionDao implements TransactionDao {
                     return new Transaction(
                             generated_transaction_id,
                             newTransactionInfo.getAccount_id(),
-                            newTransactionInfo.getAccount_name(),
                             newTransactionInfo.getTransaction_type(),
                             newTransactionInfo.getTransaction_amount(),
                             newTransactionInfo.getBalance(),
@@ -52,7 +50,7 @@ public class SqliteTransactionDao implements TransactionDao {
     @Override
     public List<Transaction> getTransactionsByAccountId(int accountId) {
         try (Connection conn = DatabaseConnector.createConnection()) {
-            String sql = "SELECT * FROM transaction WHERE account_id = ?";
+            String sql = "SELECT * FROM \"transaction\" WHERE account_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
@@ -61,16 +59,15 @@ public class SqliteTransactionDao implements TransactionDao {
                 Transaction transactionRecord = new Transaction();
                 transactionRecord.setTransaction_id(rs.getInt("transaction_id"));
                 transactionRecord.setAccount_id(rs.getInt("account_id"));
-                transactionRecord.setAccount_name(rs.getString("account_name"));
                 transactionRecord.setTransaction_type(rs.getString("transaction_type"));
                 transactionRecord.setTransaction_amount(rs.getBigDecimal("transaction_amount"));
                 transactionRecord.setBalance(rs.getBigDecimal("balance"));
                 transactionRecord.setTransaction_time(rs.getTimestamp("transaction_time"));
                 transactions.add(transactionRecord);
             }
+            return transactions;
         } catch (SQLException ex) {
             throw new TransactionSQLException(ex.getMessage());
         }
-        return null;
     }
 }
