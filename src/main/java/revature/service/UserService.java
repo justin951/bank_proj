@@ -4,6 +4,7 @@ import org.slf4j.ILoggerFactory;
 import revature.entity.User;
 import revature.exception.LoginFail;
 import revature.exception.UsernameNotUnique;
+import revature.exception.UsernameTooLong;
 import revature.repository.UserDao;
 
 import java.util.List;
@@ -33,8 +34,11 @@ public class UserService {
             }
         }
         // TODO: INFORM USER OF RESULTS
-        System.out.println();
-        throw new UsernameNotUnique("Username is taken, please register under a new username");
+        if (newUserCredentials.getUsername().length() > 30) {
+            throw new UsernameTooLong("Please choose a username that does not exceed 30 characters");
+        } else {
+            throw new UsernameNotUnique("Username is taken, please register under a new username");
+        }
     }
 
     public User checkLoginCredentials(User credentials) {
