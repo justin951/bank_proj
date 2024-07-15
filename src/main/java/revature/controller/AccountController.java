@@ -1,22 +1,31 @@
 package revature.controller;
 
 import revature.entity.Account;
+import revature.entity.Transaction;
 import revature.service.AccountService;
+import revature.service.TransactionService;
 
 import java.math.BigDecimal;
 import java.sql.SQLOutput;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class AccountController {
     private final Scanner scanner;
     private final AccountService accountService;
+    private final TransactionService transactionService;
 
-    public AccountController(Scanner scanner, AccountService accountService) {
+    public AccountController(
+            Scanner scanner,
+            AccountService accountService,
+            TransactionService transactionService) {
         this.scanner = scanner;
         this.accountService = accountService;
-
+        this.transactionService = transactionService;
     }
 
     // CORE METHODS
@@ -33,6 +42,20 @@ public class AccountController {
         } else {
             System.out.println("Not yet implemented");
         }
+    }
+
+    public void viewAccountTransactions(int accountId) {
+        List<Transaction> accountTransactions = transactionService.getTransactionsByAccountId(accountId);
+        System.out.println("...");
+        for (Transaction accountTransaction : accountTransactions) {
+            System.out.println(accountTransaction.toShortString());
+        }
+        if (accountTransactions.isEmpty()) {
+            System.out.println("This account has no transactions");
+        }
+        System.out.println();
+        System.out.println("Press any key to continue");
+        scanner.nextLine();
     }
 
     public void promptUserForAccountService(Map<String, String> controlMap) {
@@ -76,7 +99,7 @@ public class AccountController {
         System.out.println();
         System.out.println("1. View account details");
         System.out.println("2. Perform transaction");
-        System.out.println("3. Add joint user to account");
+        System.out.println("3. Review transaction history");
         System.out.println("4. Delete account");
         System.out.println("5. Go back");
 
@@ -85,7 +108,7 @@ public class AccountController {
             switch (action) {
                 case "1" -> viewAccountDetails(selectedAccount);
                 case "2" -> performTransaction(selectedAccount);
-                case "3" -> addJointUser(selectedAccount);
+                case "3" -> viewAccountTransactions(selectedAccount.getAccount_id());
                 case "4" -> deleteAccount(selectedAccount);
                 case "5" -> System.out.println();
                 default -> System.out.println("Invalid selection, please try again");
@@ -131,6 +154,7 @@ public class AccountController {
         try {
             BigDecimal withdrawAmount = BigDecimal.valueOf(Integer.parseInt(scanner.nextLine()));
             Account updatedAccount = accountService.checkSufficientBalanceForWithdraw(account, withdrawAmount);
+            createNewTransaction(updatedAccount, withdrawAmount, "withdraw");
             System.out.printf("Account %s now has a new balance of %.2f",
                     updatedAccount.getAccount_name(),
                     updatedAccount.getBalance());
@@ -150,6 +174,7 @@ public class AccountController {
         try {
             BigDecimal depositAmount = BigDecimal.valueOf(Integer.parseInt(scanner.nextLine()));
             Account updatedAccount = accountService.addBalanceForDeposit(account, depositAmount);
+            createNewTransaction(updatedAccount, depositAmount, "deposit");
             System.out.printf("Account %s now has a new balance of %.2f",
                     updatedAccount.getAccount_name(),
                     updatedAccount.getBalance());
@@ -161,9 +186,9 @@ public class AccountController {
         }
     }
 
-    private void addJointUser(Account account) {
-        System.out.println("not yet implemented");
-    }
+//    private void addJointUser(Account account) {
+//        System.out.println("not yet implemented");
+//    }
 
     private void deleteAccount(Account account) {
         if (!accountService.checkBalanceIsZero(account)) {
@@ -175,9 +200,9 @@ public class AccountController {
             performTransaction(account);
         } else {
 
-        System.out.printf(
-                "Are you sure you wish to close account {%s}?",
-                account.getAccount_name());
+            System.out.printf(
+                    "Are you sure you wish to close account {%s}?",
+                    account.getAccount_name());
             System.out.println();
             System.out.println("1. delete");
             System.out.println("2. cancel");
@@ -197,6 +222,21 @@ public class AccountController {
     }
 
     // HELPER METHODS
+    public void createNewTransaction(Account account, BigDecimal amount, String transType) {
+        Transaction newTransaction = new Transaction();
+        newTransaction.setAccount_id(account.getAccount_id());
+        newTransaction.setTransaction_type(transType);
+        if (Objects.equals(transType, "withdraw")) {
+            newTransaction.setTransaction_amount(amount.negate());
+        } else {
+            newTransaction.setTransaction_amount(amount);
+        }
+        newTransaction.setBalance(account.getBalance());
+        newTransaction.setTransaction_time(Timestamp.from(Instant.now()));
+        Transaction transaction = transactionService.createTransaction(newTransaction);
+        System.out.println(">>>>>>>>>>> " + transaction);
+    }
+
     public int retrieveUserId(Map<String, String> controlMap) {
         String userIdString = controlMap.get("user_id");
         return Integer.parseInt(userIdString);

@@ -13,8 +13,19 @@ DROP TABLE IF EXISTS "account";
 CREATE TABLE "account"(
 	account_id integer PRIMARY KEY AUTOINCREMENT,
 	account_name text,
-	balance double NOT NULL DEFAULT 0,
-	primary_user INTEGER NOT null,
-	joint_user INTEGER DEFAULT null
+	balance DECIMAL(19, 4) NOT NULL DEFAULT 0,
+	primary_user INTEGER NOT NULL,
+	Foreign KEY (primary_user) REFERENCES "user" (user_id)
 );
 
+DROP TABLE IF EXISTS "transaction";
+
+CREATE TABLE "transaction"(
+    transaction_id integer PRIMARY KEY AUTOINCREMENT,
+    account_id INTEGER NOT NULL,
+    transaction_type text not null,
+    transaction_amount DECIMAL(19, 4) not null,
+    balance DECIMAL(19, 4) not null,
+    transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (account_id) REFERENCES "account" (account_id) ON DELETE CASCADE
+);

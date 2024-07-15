@@ -11,25 +11,22 @@ public class Account implements Serializable {
     private String account_name;
     private BigDecimal balance;
     private int primary_user;
-    private Integer joint_owner;
 
     // CONSTRUCTORS
     public Account() {
     }
 
-    public Account(String account_name, BigDecimal balance, int primary_user, Integer joint_owner) {
+    public Account(String account_name, BigDecimal balance, int primary_user) {
         this.account_name = account_name;
         this.balance = balance;
         this.primary_user = primary_user;
-        this.joint_owner = joint_owner;
     }
 
-    public Account(int account_id, String account_name, BigDecimal balance, int primary_user, Integer joint_owner) {
+    public Account(int account_id, String account_name, BigDecimal balance, int primary_user) {
         this.account_id = account_id;
         this.account_name = account_name;
         this.balance = balance;
         this.primary_user = primary_user;
-        this.joint_owner = joint_owner;
     }
 
     // GETTERS SETTERS
@@ -67,25 +64,17 @@ public class Account implements Serializable {
         this.primary_user = primary_user;
     }
 
-    public Integer getJoint_owner() {
-        return joint_owner;
-    }
-
-    public void setJoint_owner(Integer joint_owner) {
-        this.joint_owner = joint_owner;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return account_id == account.account_id && primary_user == account.primary_user && Objects.equals(account_name, account.account_name) && Objects.equals(balance, account.balance) && Objects.equals(joint_owner, account.joint_owner);
+        return account_id == account.account_id && primary_user == account.primary_user && Objects.equals(account_name, account.account_name) && Objects.equals(balance, account.balance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(account_id, account_name, balance, primary_user, joint_owner);
+        return Objects.hash(account_id, account_name, balance, primary_user);
     }
 
     @Override
@@ -95,14 +84,12 @@ public class Account implements Serializable {
                 ", account_name='" + account_name + '\'' +
                 ", balance=" + balance +
                 ", primary_user=" + primary_user +
-                ", joint_owner=" + joint_owner +
                 '}';
     }
 
     public String toShortString() {
         return "{ account: " + account_name +
-                ", balance: " + String.format("%.2f", balance) +
-                ", joint owner: " + (joint_owner != null ? joint_owner.toString() : "none") + " }";
+                ", balance: " + String.format("%.2f", balance) + " }";
     }
 }
 

@@ -6,7 +6,6 @@ import revature.exception.DeleteAccountException;
 import revature.exception.UserSQLException;
 import revature.utility.DatabaseConnector;
 
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,8 +29,7 @@ public class SqliteAccountDao implements AccountDao {
                         generated_account_id,
                         newAccountInfo.getAccount_name(),
                         initialBalance,
-                        newAccountInfo.getPrimary_user(),
-                        null
+                        newAccountInfo.getPrimary_user()
                 );
             }
             throw new AccountSQLException("Account could not be created: please try again");
@@ -43,10 +41,9 @@ public class SqliteAccountDao implements AccountDao {
     @Override
     public List<Account> getUserAccounts(int userId) {
         try (Connection conn = DatabaseConnector.createConnection()) {
-            String sql = "SELECT * FROM account WHERE primary_user = ? OR joint_user = ?";
+            String sql = "SELECT * FROM account WHERE primary_user = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, userId);
-            ps.setInt(2, userId);
             ResultSet rs = ps.executeQuery();
             List<Account> accounts = new ArrayList<>();
             while (rs.next()) {
@@ -55,13 +52,6 @@ public class SqliteAccountDao implements AccountDao {
                 accountRecord.setAccount_name(rs.getString("account_name"));
                 accountRecord.setBalance(rs.getBigDecimal("balance"));
                 accountRecord.setPrimary_user(rs.getInt("primary_user"));
-                int jointOwner = rs.getInt("joint_user");
-                if (rs.wasNull()) {
-                    accountRecord.setJoint_owner(null);
-                } else {
-                    accountRecord.setJoint_owner(jointOwner);
-                }
-
                 accounts.add(accountRecord);
             }
             return accounts;
@@ -100,7 +90,6 @@ public class SqliteAccountDao implements AccountDao {
                 account.setAccount_name(rs.getString("account_name"));
                 account.setBalance(rs.getBigDecimal("balance"));
                 account.setPrimary_user(rs.getInt("primary_user"));
-                account.setJoint_owner(rs.getInt("joint_user"));
                 return account;
             }
         } catch (SQLException ex) {
