@@ -3,6 +3,7 @@ package revature.service;
 import org.slf4j.ILoggerFactory;
 import revature.entity.User;
 import revature.exception.LoginFail;
+import revature.exception.PasswordTooLong;
 import revature.exception.UsernameNotUnique;
 import revature.exception.UsernameTooLong;
 import revature.repository.UserDao;
@@ -33,9 +34,10 @@ public class UserService {
                 return userDao.createUser(newUserCredentials);
             }
         }
-        // TODO: INFORM USER OF RESULTS
         if (newUserCredentials.getUsername().length() > 30) {
             throw new UsernameTooLong("Please choose a username that does not exceed 30 characters");
+        } else if (newUserCredentials.getPassword().length() > 30) {
+            throw new PasswordTooLong("Please choose a password that does not exceed 30 characters");
         } else {
             throw new UsernameNotUnique("Username is taken, please register under a new username");
         }

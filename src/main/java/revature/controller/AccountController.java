@@ -234,7 +234,6 @@ public class AccountController {
         newTransaction.setBalance(account.getBalance());
         newTransaction.setTransaction_time(Timestamp.from(Instant.now()));
         Transaction transaction = transactionService.createTransaction(newTransaction);
-        System.out.println(">>>>>>>>>>> " + transaction);
     }
 
     public int retrieveUserId(Map<String, String> controlMap) {

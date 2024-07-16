@@ -3,7 +3,9 @@ package revature.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import revature.exception.LoginFail;
+import revature.exception.PasswordTooLong;
 import revature.exception.UsernameNotUnique;
+import revature.exception.UsernameTooLong;
 import revature.service.UserService;
 import revature.entity.User;
 
@@ -87,8 +89,19 @@ public class UserController {
 
     // TODO: generic runtime exception is thrown, make it more specific
     public void registerNewUser(Map<String, String> controlMap) {
-        User newCredentials = getUserCredentials();
-        User newUser = userService.validateNewCredentials(newCredentials);
+        User newUser = null;
+
+        while (newUser == null) {
+            try {
+                User newCredentials = getUserCredentials();
+                newUser = userService.validateNewCredentials(newCredentials);
+            } catch (UsernameTooLong | PasswordTooLong | UsernameNotUnique e) {
+                System.out.println(e.getMessage());
+            }
+            if (newUser == null) {
+                System.out.println("Invalid credentials. Please try again.");
+            }
+        }
         controlMap.put("user", newUser.getUsername());
         controlMap.put("user_id", Integer.toString(newUser.getUser_id()));
         controlMap.put("password",newUser.getPassword());
